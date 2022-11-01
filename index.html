@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.wms.js"></script>
+        <script src="data/nxcantones_0.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-2.2947891913203455,-79.92237639056385],[-2.161853385651131,-79.78965604000918]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_nxcantones_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DPA_VALOR'] !== null ? autolinker.link(feature.properties['DPA_VALOR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DPA_ANIO'] !== null ? autolinker.link(feature.properties['DPA_ANIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DPA_CANTON'] !== null ? autolinker.link(feature.properties['DPA_CANTON'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DPA_DESCAN</th>\
+                        <td>' + (feature.properties['DPA_DESCAN'] !== null ? autolinker.link(feature.properties['DPA_DESCAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DPA_PROVIN'] !== null ? autolinker.link(feature.properties['DPA_PROVIN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DPA_DESPRO'] !== null ? autolinker.link(feature.properties['DPA_DESPRO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_nxcantones_0_0() {
+            return {
+                pane: 'pane_nxcantones_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_nxcantones_0');
+        map.getPane('pane_nxcantones_0').style.zIndex = 400;
+        map.getPane('pane_nxcantones_0').style['mix-blend-mode'] = 'normal';
+        var layer_nxcantones_0 = new L.geoJson(json_nxcantones_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_nxcantones_0',
+            layerName: 'layer_nxcantones_0',
+            pane: 'pane_nxcantones_0',
+            onEachFeature: pop_nxcantones_0,
+            style: style_nxcantones_0_0,
+        });
+        bounds_group.addLayer(layer_nxcantones_0);
+        map.addLayer(layer_nxcantones_0);
+        map.createPane('pane_Geomorfologa_1');
+        map.getPane('pane_Geomorfologa_1').style.zIndex = 401;
+        var layer_Geomorfologa_1 = L.WMS.layer("http://ide.ambiente.gob.ec/geoserver/mae_ide/wms", "v_ge004_geomorfologia_a", {
+            pane: 'pane_Geomorfologa_1',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            attribution: '',
+        });
+        map.addLayer(layer_Geomorfologa_1);
+        map.createPane('pane_Cantn_2');
+        map.getPane('pane_Cantn_2').style.zIndex = 402;
+        var layer_Cantn_2 = L.WMS.layer("http://ide.ambiente.gob.ec/geoserver/mae_ide/wms", "v_ha003_canton_a", {
+            pane: 'pane_Cantn_2',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            attribution: '',
+        });
+        map.addLayer(layer_Cantn_2);
+        map.createPane('pane_Ecosistema_3');
+        map.getPane('pane_Ecosistema_3').style.zIndex = 403;
+        var layer_Ecosistema_3 = L.WMS.layer("http://ide.ambiente.gob.ec/geoserver/mae_ide/wms", "v_ge000_ecosistema_a", {
+            pane: 'pane_Ecosistema_3',
+            format: 'image/png',
+            uppercase: true,
+            transparent: true,
+            continuousWorld : true,
+            tiled: true,
+            info_format: 'text/html',
+            opacity: 1,
+            attribution: '',
+        });
+        map.addLayer(layer_Ecosistema_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{"Ecosistema": layer_Ecosistema_3,"Cantón": layer_Cantn_2,"Geomorfología": layer_Geomorfologa_1,'<img src="legend/nxcantones_0.png" /> nxcantones': layer_nxcantones_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
